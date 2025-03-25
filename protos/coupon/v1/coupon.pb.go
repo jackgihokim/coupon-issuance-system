@@ -572,7 +572,7 @@ const file_protos_coupon_v1_coupon_proto_rawDesc = "" +
 	"\x15CouponIssuanceService\x12e\n" +
 	"\x0eCreateCampaign\x12'.protos.coupon.v1.CreateCampaignRequest\x1a(.protos.coupon.v1.CreateCampaignResponse\"\x00\x12\\\n" +
 	"\vGetCampaign\x12$.protos.coupon.v1.GetCampaignRequest\x1a%.protos.coupon.v1.GetCampaignResponse\"\x00\x12\\\n" +
-	"\vIssueCoupon\x12$.protos.coupon.v1.IssueCouponRequest\x1a%.protos.coupon.v1.IssueCouponResponse\"\x00BFZDgithub.com/jackgihokim/coupon-issuance-system/gen/coupon/v1;couponv1b\x06proto3"
+	"\vIssueCoupon\x12$.protos.coupon.v1.IssueCouponRequest\x1a%.protos.coupon.v1.IssueCouponResponse\"\x00BIZGgithub.com/jackgihokim/coupon-issuance-system/protos/coupon/v1;couponv1b\x06proto3"
 
 var (
 	file_protos_coupon_v1_coupon_proto_rawDescOnce sync.Once

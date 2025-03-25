@@ -8,7 +8,7 @@ import (
 	connect "connectrpc.com/connect"
 	context "context"
 	errors "errors"
-	v1 "github.com/jackgihokim/coupon-issuance-system/gen/coupon/v1"
+	v1 "github.com/jackgihokim/coupon-issuance-system/protos/coupon/v1"
 	http "net/http"
 	strings "strings"
 )

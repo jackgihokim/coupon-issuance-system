@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 package protos.coupon.v1;
-option go_package = "github.com/jackgihokim/coupon-issuance-system/gen/protos/coupon/v1;couponv1";
+option go_package = "github.com/jackgihokim/coupon-issuance-system/protos/coupon/v1;couponv1";
 
 import "google/protobuf/timestamp.proto";
 

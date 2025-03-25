@@ -11,11 +11,38 @@ service CouponIssuance {
     rpc IssueCoupon (IssueCouponRequest) returns (IssueCouponResponse) {}
 }
 
-message CreateCampaignRequest {}
-message CreateCampaignResponse {}
+message CreateCampaignRequest {
+    uint64 coupon_limit = 1;
+    string name = 2;
+    string description = 3;
+    google.protobuf.Timestamp start_at = 4;
+    google.protobuf.Timestamp end_at = 5;
+}
+message CreateCampaignResponse {
+    bool success = 1;
+}
 
-message GetCampaignRequest {}
-message GetCampaignResponse {}
+message GetCampaignRequest { uint64 id = 1; }
+message Coupon {
+    string code = 1;
+    google.protobuf.Timestamp expire_at = 2;
+    google.protobuf.Timestamp issued_at = 3;
+}
+message GetCampaignResponse {
+    uint64 id = 1;
+    uint64 coupon_limit = 2;
+    string name = 3;
+    string description = 4;
+    google.protobuf.Timestamp created_at = 5;
+    google.protobuf.Timestamp start_at = 6;
+    google.protobuf.Timestamp end_at = 7;
+    repeated Coupon coupons = 8;
+}
 
-message IssueCouponRequest {}
-message IssueCouponResponse {}
+message IssueCouponRequest {
+    uint64 campaign_id = 1;
+}
+message IssueCouponResponse {
+    bool success = 1;
+    Coupon coupon = 2;
+}

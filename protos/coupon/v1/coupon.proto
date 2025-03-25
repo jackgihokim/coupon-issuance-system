@@ -1,14 +1,30 @@
 syntax = "proto3";
 
 package protos.coupon.v1;
-option go_package = "github.com/jackgihokim/coupon-issuance-system/gen/coupon/v1;couponv1";
+option go_package = "github.com/jackgihokim/coupon-issuance-system/gen/protos/coupon/v1;couponv1";
 
 import "google/protobuf/timestamp.proto";
 
-service CouponIssuance {
+service CouponIssuanceService {
     rpc CreateCampaign (CreateCampaignRequest) returns (CreateCampaignResponse) {}
     rpc GetCampaign (GetCampaignRequest) returns (GetCampaignResponse) {}
     rpc IssueCoupon (IssueCouponRequest) returns (IssueCouponResponse) {}
+}
+
+message Coupon {
+    string code = 1;
+    google.protobuf.Timestamp expire_at = 2;
+    google.protobuf.Timestamp issued_at = 3;
+}
+message Campaign {
+    uint64 id = 1;
+    uint64 coupon_limit = 2;
+    string name = 3;
+    string description = 4;
+    google.protobuf.Timestamp created_at = 5;
+    google.protobuf.Timestamp start_at = 6;
+    google.protobuf.Timestamp end_at = 7;
+    repeated Coupon coupons = 8;
 }
 
 message CreateCampaignRequest {
@@ -20,29 +36,20 @@ message CreateCampaignRequest {
 }
 message CreateCampaignResponse {
     bool success = 1;
+    string message = 2;
+    Campaign campaign = 3;
 }
 
-message GetCampaignRequest { uint64 id = 1; }
-message Coupon {
-    string code = 1;
-    google.protobuf.Timestamp expire_at = 2;
-    google.protobuf.Timestamp issued_at = 3;
-}
+message GetCampaignRequest { uint64 campaign_id = 1; }
 message GetCampaignResponse {
-    uint64 id = 1;
-    uint64 coupon_limit = 2;
-    string name = 3;
-    string description = 4;
-    google.protobuf.Timestamp created_at = 5;
-    google.protobuf.Timestamp start_at = 6;
-    google.protobuf.Timestamp end_at = 7;
-    repeated Coupon coupons = 8;
+    bool success = 1;
+    string message = 2;
+    Campaign campaign = 3;
 }
 
-message IssueCouponRequest {
-    uint64 campaign_id = 1;
-}
+message IssueCouponRequest { uint64 campaign_id = 1; }
 message IssueCouponResponse {
     bool success = 1;
-    Coupon coupon = 2;
+    string message = 2;
+    Coupon coupon = 3;
 }

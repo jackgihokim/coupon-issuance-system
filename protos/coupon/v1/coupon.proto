@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package protos.coupon.v1;
+option go_package = "github.com/jackgihokim/coupon-issuance-system/gen/coupon/v1;couponv1";
+
+import "google/protobuf/timestamp.proto";
+
+service CouponIssuance {
+    rpc CreateCampaign (CreateCampaignRequest) returns (CreateCampaignResponse) {}
+    rpc GetCampaign (GetCampaignRequest) returns (GetCampaignResponse) {}
+    rpc IssueCoupon (IssueCouponRequest) returns (IssueCouponResponse) {}
+}
+
+message CreateCampaignRequest {}
+message CreateCampaignResponse {}
+
+message GetCampaignRequest {}
+message GetCampaignResponse {}
+
+message IssueCouponRequest {}
+message IssueCouponResponse {}

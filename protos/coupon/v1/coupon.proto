@@ -34,22 +34,10 @@ message CreateCampaignRequest {
     google.protobuf.Timestamp start_at = 4;
     google.protobuf.Timestamp end_at = 5;
 }
-message CreateCampaignResponse {
-    bool success = 1;
-    string message = 2;
-    Campaign campaign = 3;
-}
+message CreateCampaignResponse { Campaign campaign = 1; }
 
 message GetCampaignRequest { uint64 campaign_id = 1; }
-message GetCampaignResponse {
-    bool success = 1;
-    string message = 2;
-    Campaign campaign = 3;
-}
+message GetCampaignResponse { Campaign campaign = 1; }
 
 message IssueCouponRequest { uint64 campaign_id = 1; }
-message IssueCouponResponse {
-    bool success = 1;
-    string message = 2;
-    Coupon coupon = 3;
-}
+message IssueCouponResponse { Coupon coupon = 1; }

@@ -260,9 +260,7 @@ func (x *CreateCampaignRequest) GetEndAt() *timestamppb.Timestamp {
 
 type CreateCampaignResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
-	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
-	Campaign      *Campaign              `protobuf:"bytes,3,opt,name=campaign,proto3" json:"campaign,omitempty"`
+	Campaign      *Campaign              `protobuf:"bytes,1,opt,name=campaign,proto3" json:"campaign,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -295,20 +293,6 @@ func (x *CreateCampaignResponse) ProtoReflect() protoreflect.Message {
 // Deprecated: Use CreateCampaignResponse.ProtoReflect.Descriptor instead.
 func (*CreateCampaignResponse) Descriptor() ([]byte, []int) {
 	return file_protos_coupon_v1_coupon_proto_rawDescGZIP(), []int{3}
-}
-
-func (x *CreateCampaignResponse) GetSuccess() bool {
-	if x != nil {
-		return x.Success
-	}
-	return false
-}
-
-func (x *CreateCampaignResponse) GetMessage() string {
-	if x != nil {
-		return x.Message
-	}
-	return ""
 }
 
 func (x *CreateCampaignResponse) GetCampaign() *Campaign {
@@ -364,9 +348,7 @@ func (x *GetCampaignRequest) GetCampaignId() uint64 {
 
 type GetCampaignResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
-	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
-	Campaign      *Campaign              `protobuf:"bytes,3,opt,name=campaign,proto3" json:"campaign,omitempty"`
+	Campaign      *Campaign              `protobuf:"bytes,1,opt,name=campaign,proto3" json:"campaign,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -399,20 +381,6 @@ func (x *GetCampaignResponse) ProtoReflect() protoreflect.Message {
 // Deprecated: Use GetCampaignResponse.ProtoReflect.Descriptor instead.
 func (*GetCampaignResponse) Descriptor() ([]byte, []int) {
 	return file_protos_coupon_v1_coupon_proto_rawDescGZIP(), []int{5}
-}
-
-func (x *GetCampaignResponse) GetSuccess() bool {
-	if x != nil {
-		return x.Success
-	}
-	return false
-}
-
-func (x *GetCampaignResponse) GetMessage() string {
-	if x != nil {
-		return x.Message
-	}
-	return ""
 }
 
 func (x *GetCampaignResponse) GetCampaign() *Campaign {
@@ -468,9 +436,7 @@ func (x *IssueCouponRequest) GetCampaignId() uint64 {
 
 type IssueCouponResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
-	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
-	Coupon        *Coupon                `protobuf:"bytes,3,opt,name=coupon,proto3" json:"coupon,omitempty"`
+	Coupon        *Coupon                `protobuf:"bytes,1,opt,name=coupon,proto3" json:"coupon,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -505,20 +471,6 @@ func (*IssueCouponResponse) Descriptor() ([]byte, []int) {
 	return file_protos_coupon_v1_coupon_proto_rawDescGZIP(), []int{7}
 }
 
-func (x *IssueCouponResponse) GetSuccess() bool {
-	if x != nil {
-		return x.Success
-	}
-	return false
-}
-
-func (x *IssueCouponResponse) GetMessage() string {
-	if x != nil {
-		return x.Message
-	}
-	return ""
-}
-
 func (x *IssueCouponResponse) GetCoupon() *Coupon {
 	if x != nil {
 		return x.Coupon
@@ -550,25 +502,19 @@ const file_protos_coupon_v1_coupon_proto_rawDesc = "" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
 	"\vdescription\x18\x03 \x01(\tR\vdescription\x125\n" +
 	"\bstart_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\astartAt\x121\n" +
-	"\x06end_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\x05endAt\"\x84\x01\n" +
-	"\x16CreateCampaignResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
-	"\amessage\x18\x02 \x01(\tR\amessage\x126\n" +
-	"\bcampaign\x18\x03 \x01(\v2\x1a.protos.coupon.v1.CampaignR\bcampaign\"5\n" +
+	"\x06end_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\x05endAt\"P\n" +
+	"\x16CreateCampaignResponse\x126\n" +
+	"\bcampaign\x18\x01 \x01(\v2\x1a.protos.coupon.v1.CampaignR\bcampaign\"5\n" +
 	"\x12GetCampaignRequest\x12\x1f\n" +
 	"\vcampaign_id\x18\x01 \x01(\x04R\n" +
-	"campaignId\"\x81\x01\n" +
-	"\x13GetCampaignResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
-	"\amessage\x18\x02 \x01(\tR\amessage\x126\n" +
-	"\bcampaign\x18\x03 \x01(\v2\x1a.protos.coupon.v1.CampaignR\bcampaign\"5\n" +
+	"campaignId\"M\n" +
+	"\x13GetCampaignResponse\x126\n" +
+	"\bcampaign\x18\x01 \x01(\v2\x1a.protos.coupon.v1.CampaignR\bcampaign\"5\n" +
 	"\x12IssueCouponRequest\x12\x1f\n" +
 	"\vcampaign_id\x18\x01 \x01(\x04R\n" +
-	"campaignId\"{\n" +
-	"\x13IssueCouponResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
-	"\amessage\x18\x02 \x01(\tR\amessage\x120\n" +
-	"\x06coupon\x18\x03 \x01(\v2\x18.protos.coupon.v1.CouponR\x06coupon2\xba\x02\n" +
+	"campaignId\"G\n" +
+	"\x13IssueCouponResponse\x120\n" +
+	"\x06coupon\x18\x01 \x01(\v2\x18.protos.coupon.v1.CouponR\x06coupon2\xba\x02\n" +
 	"\x15CouponIssuanceService\x12e\n" +
 	"\x0eCreateCampaign\x12'.protos.coupon.v1.CreateCampaignRequest\x1a(.protos.coupon.v1.CreateCampaignResponse\"\x00\x12\\\n" +
 	"\vGetCampaign\x12$.protos.coupon.v1.GetCampaignRequest\x1a%.protos.coupon.v1.GetCampaignResponse\"\x00\x12\\\n" +

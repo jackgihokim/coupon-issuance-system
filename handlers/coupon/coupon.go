@@ -2,15 +2,12 @@ package coupon
 
 import (
 	"bytes"
+	"google.golang.org/protobuf/types/known/timestamppb"
 	"strconv"
 	"time"
-)
 
-type Coupon struct {
-	Code     string
-	ExpireAt time.Time
-	IssuedAt time.Time
-}
+	couponv1 "github.com/jackgihokim/coupon-issuance-system/protos/coupon/v1"
+)
 
 const maxCodeLength = 10
 const koText = "테스트"
@@ -19,17 +16,17 @@ var expiration time.Time = time.Date(2025, time.March, 28, 0, 0, 0, 0, time.UTC)
 
 // NewCoupon generates a new Coupon with a unique code, expiration date, and issue timestamp.
 // Returns an error if the code generation fails.
-func NewCoupon() (*Coupon, error) {
+func NewCoupon() (*couponv1.Coupon, error) {
 	now := time.Now()
 	code, err := createCode(koText, now.UnixNano())
 	if err != nil {
 		return nil, err
 	}
 
-	return &Coupon{
+	return &couponv1.Coupon{
 		Code:     code,
-		ExpireAt: expiration,
-		IssuedAt: now,
+		ExpireAt: timestamppb.New(expiration),
+		IssuedAt: timestamppb.New(now),
 	}, nil
 }
 

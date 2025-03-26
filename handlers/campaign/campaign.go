@@ -7,7 +7,8 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
-var storage *Storage = newCampaignStorage()
+// TODO: Store move to the outside, campaignId and coupons move to the inside.
+var store *Store = newCampaignStore()
 
 // NewCampaign creates a new campaign with the provided details and stores it. Returns the created campaign or an error.
 // id is a pointer to the ID generator for unique campaign ID creation.
@@ -15,7 +16,7 @@ var storage *Storage = newCampaignStorage()
 // name and desc are strings representing the campaign's name and description, respectively.
 // start and end are pointers to timestamps defining the campaign's start and end time.
 // coups is a pointer to a Coupons list containing coupon details for the campaign.
-// Returns a pointer to the created couponv1.Campaign or an error if the storage operation fails.
+// Returns a pointer to the created couponv1.Campaign or an error if the store operation fails.
 func NewCampaign(
 	id *id.ID, limit uint64, name, desc string, start, end *timestamppb.Timestamp, coups *coupon.Coupons,
 ) (*couponv1.Campaign, error) {
@@ -30,7 +31,7 @@ func NewCampaign(
 		Coupons:     coups.List(),
 	}
 
-	err := storage.add(camp)
+	err := store.add(camp)
 	if err != nil {
 		return nil, err
 	}
@@ -38,10 +39,10 @@ func NewCampaign(
 	return camp, nil
 }
 
-// GetCampaign retrieves a campaign by its unique ID from the storage.
+// GetCampaign retrieves a campaign by its unique ID from the store.
 // It returns the campaign object and an error if the operation fails.
 func GetCampaign(id uint64) (*couponv1.Campaign, error) {
-	camp, err := storage.get(id)
+	camp, err := store.get(id)
 	if err != nil {
 		return nil, err
 	}

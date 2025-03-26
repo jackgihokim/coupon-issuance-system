@@ -9,15 +9,16 @@ import (
 	couponv1 "github.com/jackgihokim/coupon-issuance-system/protos/coupon/v1"
 )
 
-const maxCodeLength = 10
-const koText = "테스트"
+const (
+	maxCodeLength = 10
+	koText        = "테스트"
+)
 
-var expiration time.Time = time.Date(2025, time.March, 28, 0, 0, 0, 0, time.UTC)
+var expiration time.Time = time.Date(2025, time.March, 28, 0, 0, 0, 0, time.UTC) // must use UTC for being the same as timestamppb.
 
 // NewCoupon generates a new Coupon with a unique code, expiration date, and issue timestamp.
 // Returns an error if the code generation fails.
-func NewCoupon() (*couponv1.Coupon, error) {
-	now := time.Now()
+func NewCoupon(now time.Time) (*couponv1.Coupon, error) {
 	code, err := createCode(koText, now.UnixNano())
 	if err != nil {
 		return nil, err

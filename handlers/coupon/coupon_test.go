@@ -7,7 +7,7 @@ import (
 )
 
 func TestNewCoupon(t *testing.T) {
-	coupon, err := NewCoupon()
+	coupon, err := NewCoupon(time.Now())
 	if err != nil {
 		t.Fatalf("Error occurred while creating NewCoupon(): %v", err)
 	}
@@ -23,13 +23,13 @@ func TestNewCoupon(t *testing.T) {
 	}
 
 	// Verify expiration date is set correctly
-	if !coupon.ExpireAt.Equal(expiration) {
-		t.Errorf("Expiration date not set correctly. expected: %v, got: %v", expiration, coupon.ExpireAt)
+	if !coupon.ExpireAt.AsTime().Equal(expiration) {
+		t.Errorf("Expiration date not set correctly. expected: %v, got: %v", expiration, coupon.ExpireAt.AsTime())
 	}
 
 	// Check IssuedAt is close to current time
 	now := time.Now()
-	timeDiff := now.Sub(coupon.IssuedAt)
+	timeDiff := now.Sub(coupon.IssuedAt.AsTime())
 	if timeDiff > time.Second {
 		t.Errorf("IssuedAt time differs too much from current time: %v", timeDiff)
 	}

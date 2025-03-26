@@ -86,17 +86,21 @@ func (s *CouponIssuanceServer) IssueCoupon(
 	req *connect.Request[couponv1.IssueCouponRequest],
 ) (*connect.Response[couponv1.IssueCouponResponse], error) {
 	camp, err := campaign.GetCampaign(req.Msg.CampaignId)
-	err = validatePeriod(camp)
+	now := time.Now().UTC() // must use UTC for being the same as timestamppb.
+	err = validatePeriod(camp, now)
 	if err != nil {
 		return nil, err
 	}
 
-	coup, err := coupon.NewCoupon()
+	coup, err := coupon.NewCoupon(now)
 	if err != nil {
 		return nil, err
 	}
 
-	// TODO: needs to push coupon to coupons list.
+	err = coupons.Add(coup)
+	if err != nil {
+		return nil, err
+	}
 
 	resp := connect.NewResponse(&couponv1.IssueCouponResponse{
 		Coupon: coup,
@@ -104,13 +108,13 @@ func (s *CouponIssuanceServer) IssueCoupon(
 	return resp, nil
 }
 
-// validatePeriod validates if the campaign is within its validity period by checking the start and end times.
-// Returns an error if the campaign has not started or has already ended.
-func validatePeriod(camp *couponv1.Campaign) error {
-	if camp.StartAt.AsTime().Before(time.Now()) {
+// validatePeriod checks if the campaign is active by comparing the current time with its start and end timestamps.
+// Returns an error if the campaign has not started yet or is already over.
+func validatePeriod(camp *couponv1.Campaign, now time.Time) error {
+	if camp.StartAt.AsTime().After(now) {
 		return errors.New("campaign is not started yet")
 	}
-	if camp.EndAt.AsTime().Before(time.Now()) {
+	if camp.EndAt.AsTime().Before(now) {
 		return errors.New("campaign is over")
 	}
 	return nil

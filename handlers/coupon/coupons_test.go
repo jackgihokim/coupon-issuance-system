@@ -2,11 +2,13 @@ package coupon
 
 import (
 	"testing"
+
+	couponv1 "github.com/jackgihokim/coupon-issuance-system/protos/coupon/v1"
 )
 
 func TestNewCoupons(t *testing.T) {
 	// Test case for the NewCoupons function
-	count := uint(5)
+	count := uint64(5)
 	coupons := NewCoupons(count)
 
 	if coupons.count != count {
@@ -25,8 +27,8 @@ func TestNewCoupons(t *testing.T) {
 func TestCoupons_Add(t *testing.T) {
 	// Test case for successfully adding coupons
 	coupons := NewCoupons(2)
-	coupon1 := &Coupon{} // Assuming Coupon is defined elsewhere
-	coupon2 := &Coupon{}
+	coupon1 := &couponv1.Coupon{} // Assuming Coupon is defined elsewhere
+	coupon2 := &couponv1.Coupon{}
 
 	// First add should succeed
 	err := coupons.Add(coupon1)
@@ -45,7 +47,7 @@ func TestCoupons_Add(t *testing.T) {
 	}
 
 	// Third add should fail with "no more coupon" error
-	err = coupons.Add(&Coupon{})
+	err = coupons.Add(&couponv1.Coupon{})
 	if err == nil {
 		t.Error("Expected error when adding beyond capacity, got nil")
 	}
@@ -58,8 +60,8 @@ func TestCoupons_Add(t *testing.T) {
 func TestCoupons_List(t *testing.T) {
 	// Test case for listing coupons
 	coupons := NewCoupons(3)
-	coupon1 := &Coupon{}
-	coupon2 := &Coupon{}
+	coupon1 := &couponv1.Coupon{}
+	coupon2 := &couponv1.Coupon{}
 
 	// Add coupons to the list
 	_ = coupons.Add(coupon1)
@@ -90,7 +92,7 @@ func TestConcurrentAccess(t *testing.T) {
 	for i := 0; i < 5; i++ {
 		go func() {
 			for j := 0; j < 20; j++ {
-				_ = coupons.Add(&Coupon{})
+				_ = coupons.Add(&couponv1.Coupon{})
 			}
 			done <- true
 		}()

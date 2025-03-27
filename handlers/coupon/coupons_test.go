@@ -8,7 +8,7 @@ import (
 
 func TestNewCoupons(t *testing.T) {
 	// Test case for the NewCoupons function
-	count := uint64(5)
+	count := uint32(5)
 	coupons := NewCoupons(count)
 
 	if coupons.count != count {

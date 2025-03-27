@@ -3,8 +3,7 @@ package server
 import (
 	"context"
 	"errors"
-	"github.com/jackgihokim/coupon-issuance-system/common/id"
-	"github.com/jackgihokim/coupon-issuance-system/handlers/coupon"
+	"google.golang.org/protobuf/types/known/timestamppb"
 	"log"
 	"net/http"
 	"time"
@@ -14,6 +13,7 @@ import (
 	"golang.org/x/net/http2/h2c"
 
 	"github.com/jackgihokim/coupon-issuance-system/handlers/campaign"
+	"github.com/jackgihokim/coupon-issuance-system/handlers/coupon"
 	couponv1 "github.com/jackgihokim/coupon-issuance-system/protos/coupon/v1"
 	"github.com/jackgihokim/coupon-issuance-system/protos/coupon/v1/couponv1connect"
 )
@@ -38,33 +38,36 @@ func (s *CouponIssuanceServer) Start() {
 	}
 }
 
-var (
-	campaignId *id.ID
-	coupons    *coupon.Coupons
-)
-
-// CreateCampaign creates a new campaign with the specified details and returns the created campaign or an error.
+// CreateCampaign handles the creation of a new campaign with provided details.
+// Returns the created campaign or an error.
 func (s *CouponIssuanceServer) CreateCampaign(
 	ctx context.Context,
 	req *connect.Request[couponv1.CreateCampaignRequest],
 ) (*connect.Response[couponv1.CreateCampaignResponse], error) {
-	campaignId = id.NewID()
-	coupons = coupon.NewCoupons(req.Msg.CouponLimit)
-
 	camp, err := campaign.NewCampaign(
-		campaignId, req.Msg.CouponLimit, req.Msg.Name, req.Msg.Description, req.Msg.StartAt, req.Msg.EndAt, coupons,
+		req.Msg.CouponLimit, req.Msg.Name, req.Msg.Description, req.Msg.StartAt.AsTime(), req.Msg.EndAt.AsTime(),
 	)
 	if err != nil {
 		return nil, err
 	}
 
 	resp := connect.NewResponse(&couponv1.CreateCampaignResponse{
-		Campaign: camp,
+		Campaign: &couponv1.Campaign{
+			Id:          camp.Id,
+			CouponLimit: camp.CouponLimit,
+			Name:        camp.Name,
+			Description: camp.Description,
+			CreatedAt:   timestamppb.New(camp.CreatedAt),
+			StartAt:     timestamppb.New(camp.StartAt),
+			EndAt:       timestamppb.New(camp.EndAt),
+			Coupons:     camp.Coupons.List(),
+		},
 	})
 	return resp, nil
 }
 
-// GetCampaign retrieves a campaign by its unique ID using the provided request and returns the campaign details or an error.
+// GetCampaign retrieves the details of a specific campaign using the provided campaign ID.
+// Returns a response containing the campaign details or an error if the campaign is not found.
 func (s *CouponIssuanceServer) GetCampaign(
 	ctx context.Context,
 	req *connect.Request[couponv1.GetCampaignRequest],
@@ -75,12 +78,22 @@ func (s *CouponIssuanceServer) GetCampaign(
 	}
 
 	resp := connect.NewResponse(&couponv1.GetCampaignResponse{
-		Campaign: camp,
+		Campaign: &couponv1.Campaign{
+			Id:          camp.Id,
+			CouponLimit: camp.CouponLimit,
+			Name:        camp.Name,
+			Description: camp.Description,
+			CreatedAt:   timestamppb.New(camp.CreatedAt),
+			StartAt:     timestamppb.New(camp.StartAt),
+			EndAt:       timestamppb.New(camp.EndAt),
+			Coupons:     camp.Coupons.List(),
+		},
 	})
 	return resp, nil
 }
 
-// IssueCoupon issues a new coupon for the specified campaign if the campaign is active and within its validity period.
+// IssueCoupon handles the issuance of a new coupon for a specific campaign, validating campaign status and period.
+// Returns a response containing the issued coupon or an error if the operation fails.
 func (s *CouponIssuanceServer) IssueCoupon(
 	ctx context.Context,
 	req *connect.Request[couponv1.IssueCouponRequest],
@@ -97,7 +110,7 @@ func (s *CouponIssuanceServer) IssueCoupon(
 		return nil, err
 	}
 
-	err = coupons.Add(coup)
+	err = camp.Coupons.Add(coup)
 	if err != nil {
 		return nil, err
 	}
@@ -108,13 +121,13 @@ func (s *CouponIssuanceServer) IssueCoupon(
 	return resp, nil
 }
 
-// validatePeriod checks if the campaign is active by comparing the current time with its start and end timestamps.
-// Returns an error if the campaign has not started yet or is already over.
-func validatePeriod(camp *couponv1.Campaign, now time.Time) error {
-	if camp.StartAt.AsTime().After(now) {
+// validatePeriod checks if the given campaign is currently active based on its start and end times relative to now.
+// Returns an error if the campaign has not started or has already ended.
+func validatePeriod(camp *campaign.Campaign, now time.Time) error {
+	if camp.StartAt.After(now) {
 		return errors.New("campaign is not started yet")
 	}
-	if camp.EndAt.AsTime().Before(now) {
+	if camp.EndAt.Before(now) {
 		return errors.New("campaign is over")
 	}
 	return nil

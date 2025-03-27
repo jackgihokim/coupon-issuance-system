@@ -17,8 +17,8 @@ message Coupon {
     google.protobuf.Timestamp issued_at = 3;
 }
 message Campaign {
-    uint64 id = 1;
-    uint64 coupon_limit = 2;
+    uint32 id = 1;
+    uint32 coupon_limit = 2;
     string name = 3;
     string description = 4;
     google.protobuf.Timestamp created_at = 5;
@@ -28,7 +28,7 @@ message Campaign {
 }
 
 message CreateCampaignRequest {
-    uint64 coupon_limit = 1;
+    uint32 coupon_limit = 1;
     string name = 2;
     string description = 3;
     google.protobuf.Timestamp start_at = 4;
@@ -36,8 +36,8 @@ message CreateCampaignRequest {
 }
 message CreateCampaignResponse { Campaign campaign = 1; }
 
-message GetCampaignRequest { uint64 campaign_id = 1; }
+message GetCampaignRequest { uint32 campaign_id = 1; }
 message GetCampaignResponse { Campaign campaign = 1; }
 
-message IssueCouponRequest { uint64 campaign_id = 1; }
+message IssueCouponRequest { uint32 campaign_id = 1; }
 message IssueCouponResponse { Coupon coupon = 1; }

@@ -8,13 +8,13 @@ import (
 )
 
 type Coupons struct {
+	count uint32
 	mu    sync.Mutex
-	count uint64
 	list  []*couponv1.Coupon
 }
 
 // NewCoupons initializes a new Coupons instance with the specified count and pre-allocated list capacity.
-func NewCoupons(cnt uint64) *Coupons {
+func NewCoupons(cnt uint32) *Coupons {
 	return &Coupons{
 		count: cnt,
 		list:  make([]*couponv1.Coupon, 0, cnt),

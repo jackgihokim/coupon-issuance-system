@@ -1,6 +1,8 @@
 package main
 
 import (
+	"github.com/jackgihokim/coupon-issuance-system/common/id"
+	"github.com/jackgihokim/coupon-issuance-system/handlers/campaign"
 	"github.com/jackgihokim/coupon-issuance-system/server"
 )
 
@@ -18,6 +20,10 @@ func main() {
 	//camp := campaign.NewCampaign(couponLimitCount, campaignName, campaignDesc, startDateTime, endDateTime)
 	//fmt.Println(camp.Name)
 
+	// Initialize the CampaignId.
+	campaign.CampaignId = id.NewID()
+
+	// Server
 	srv := server.NewCouponIssuanceServer()
 	srv.Start()
 }

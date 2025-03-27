@@ -84,8 +84,8 @@ func (x *Coupon) GetIssuedAt() *timestamppb.Timestamp {
 
 type Campaign struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            uint64                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	CouponLimit   uint64                 `protobuf:"varint,2,opt,name=coupon_limit,json=couponLimit,proto3" json:"coupon_limit,omitempty"`
+	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	CouponLimit   uint32                 `protobuf:"varint,2,opt,name=coupon_limit,json=couponLimit,proto3" json:"coupon_limit,omitempty"`
 	Name          string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
 	Description   string                 `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
 	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
@@ -126,14 +126,14 @@ func (*Campaign) Descriptor() ([]byte, []int) {
 	return file_protos_coupon_v1_coupon_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *Campaign) GetId() uint64 {
+func (x *Campaign) GetId() uint32 {
 	if x != nil {
 		return x.Id
 	}
 	return 0
 }
 
-func (x *Campaign) GetCouponLimit() uint64 {
+func (x *Campaign) GetCouponLimit() uint32 {
 	if x != nil {
 		return x.CouponLimit
 	}
@@ -184,7 +184,7 @@ func (x *Campaign) GetCoupons() []*Coupon {
 
 type CreateCampaignRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	CouponLimit   uint64                 `protobuf:"varint,1,opt,name=coupon_limit,json=couponLimit,proto3" json:"coupon_limit,omitempty"`
+	CouponLimit   uint32                 `protobuf:"varint,1,opt,name=coupon_limit,json=couponLimit,proto3" json:"coupon_limit,omitempty"`
 	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
 	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
 	StartAt       *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=start_at,json=startAt,proto3" json:"start_at,omitempty"`
@@ -223,7 +223,7 @@ func (*CreateCampaignRequest) Descriptor() ([]byte, []int) {
 	return file_protos_coupon_v1_coupon_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *CreateCampaignRequest) GetCouponLimit() uint64 {
+func (x *CreateCampaignRequest) GetCouponLimit() uint32 {
 	if x != nil {
 		return x.CouponLimit
 	}
@@ -304,7 +304,7 @@ func (x *CreateCampaignResponse) GetCampaign() *Campaign {
 
 type GetCampaignRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	CampaignId    uint64                 `protobuf:"varint,1,opt,name=campaign_id,json=campaignId,proto3" json:"campaign_id,omitempty"`
+	CampaignId    uint32                 `protobuf:"varint,1,opt,name=campaign_id,json=campaignId,proto3" json:"campaign_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -339,7 +339,7 @@ func (*GetCampaignRequest) Descriptor() ([]byte, []int) {
 	return file_protos_coupon_v1_coupon_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *GetCampaignRequest) GetCampaignId() uint64 {
+func (x *GetCampaignRequest) GetCampaignId() uint32 {
 	if x != nil {
 		return x.CampaignId
 	}
@@ -392,7 +392,7 @@ func (x *GetCampaignResponse) GetCampaign() *Campaign {
 
 type IssueCouponRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	CampaignId    uint64                 `protobuf:"varint,1,opt,name=campaign_id,json=campaignId,proto3" json:"campaign_id,omitempty"`
+	CampaignId    uint32                 `protobuf:"varint,1,opt,name=campaign_id,json=campaignId,proto3" json:"campaign_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -427,7 +427,7 @@ func (*IssueCouponRequest) Descriptor() ([]byte, []int) {
 	return file_protos_coupon_v1_coupon_proto_rawDescGZIP(), []int{6}
 }
 
-func (x *IssueCouponRequest) GetCampaignId() uint64 {
+func (x *IssueCouponRequest) GetCampaignId() uint32 {
 	if x != nil {
 		return x.CampaignId
 	}
@@ -488,8 +488,8 @@ const file_protos_coupon_v1_coupon_proto_rawDesc = "" +
 	"\texpire_at\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\bexpireAt\x127\n" +
 	"\tissued_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\bissuedAt\"\xcc\x02\n" +
 	"\bCampaign\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x04R\x02id\x12!\n" +
-	"\fcoupon_limit\x18\x02 \x01(\x04R\vcouponLimit\x12\x12\n" +
+	"\x02id\x18\x01 \x01(\rR\x02id\x12!\n" +
+	"\fcoupon_limit\x18\x02 \x01(\rR\vcouponLimit\x12\x12\n" +
 	"\x04name\x18\x03 \x01(\tR\x04name\x12 \n" +
 	"\vdescription\x18\x04 \x01(\tR\vdescription\x129\n" +
 	"\n" +
@@ -498,7 +498,7 @@ const file_protos_coupon_v1_coupon_proto_rawDesc = "" +
 	"\x06end_at\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\x05endAt\x122\n" +
 	"\acoupons\x18\b \x03(\v2\x18.protos.coupon.v1.CouponR\acoupons\"\xda\x01\n" +
 	"\x15CreateCampaignRequest\x12!\n" +
-	"\fcoupon_limit\x18\x01 \x01(\x04R\vcouponLimit\x12\x12\n" +
+	"\fcoupon_limit\x18\x01 \x01(\rR\vcouponLimit\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
 	"\vdescription\x18\x03 \x01(\tR\vdescription\x125\n" +
 	"\bstart_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\astartAt\x121\n" +
@@ -506,12 +506,12 @@ const file_protos_coupon_v1_coupon_proto_rawDesc = "" +
 	"\x16CreateCampaignResponse\x126\n" +
 	"\bcampaign\x18\x01 \x01(\v2\x1a.protos.coupon.v1.CampaignR\bcampaign\"5\n" +
 	"\x12GetCampaignRequest\x12\x1f\n" +
-	"\vcampaign_id\x18\x01 \x01(\x04R\n" +
+	"\vcampaign_id\x18\x01 \x01(\rR\n" +
 	"campaignId\"M\n" +
 	"\x13GetCampaignResponse\x126\n" +
 	"\bcampaign\x18\x01 \x01(\v2\x1a.protos.coupon.v1.CampaignR\bcampaign\"5\n" +
 	"\x12IssueCouponRequest\x12\x1f\n" +
-	"\vcampaign_id\x18\x01 \x01(\x04R\n" +
+	"\vcampaign_id\x18\x01 \x01(\rR\n" +
 	"campaignId\"G\n" +
 	"\x13IssueCouponResponse\x120\n" +
 	"\x06coupon\x18\x01 \x01(\v2\x18.protos.coupon.v1.CouponR\x06coupon2\xba\x02\n" +

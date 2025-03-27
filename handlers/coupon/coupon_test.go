@@ -7,7 +7,9 @@ import (
 )
 
 func TestNewCoupon(t *testing.T) {
-	coupon, err := NewCoupon(time.Now())
+	now := time.Now()
+	expiration := now.Add(time.Hour * 24)
+	coupon, err := NewCoupon(expiration, now)
 	if err != nil {
 		t.Fatalf("Error occurred while creating NewCoupon(): %v", err)
 	}
@@ -28,7 +30,6 @@ func TestNewCoupon(t *testing.T) {
 	}
 
 	// Check IssuedAt is close to current time
-	now := time.Now()
 	timeDiff := now.Sub(coupon.IssuedAt.AsTime())
 	if timeDiff > time.Second {
 		t.Errorf("IssuedAt time differs too much from current time: %v", timeDiff)

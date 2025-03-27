@@ -3,7 +3,6 @@ package server
 import (
 	"context"
 	"errors"
-	"google.golang.org/protobuf/types/known/timestamppb"
 	"log"
 	"net/http"
 	"time"
@@ -11,6 +10,7 @@ import (
 	"connectrpc.com/connect"
 	"golang.org/x/net/http2"
 	"golang.org/x/net/http2/h2c"
+	"google.golang.org/protobuf/types/known/timestamppb"
 
 	"github.com/jackgihokim/coupon-issuance-system/handlers/campaign"
 	"github.com/jackgihokim/coupon-issuance-system/handlers/coupon"
@@ -105,7 +105,7 @@ func (s *CouponIssuanceServer) IssueCoupon(
 		return nil, err
 	}
 
-	coup, err := coupon.NewCoupon(now)
+	coup, err := coupon.NewCoupon(camp.EndAt.UTC(), now) // must use UTC for being the same as timestamppb.
 	if err != nil {
 		return nil, err
 	}

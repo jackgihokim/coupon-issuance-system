@@ -1,0 +1,29 @@
+## HTTP Client for Jetbrains IDE
+
+### Create a Campaign
+POST http://localhost:8080/protos.coupon.v1.CouponIssuanceService/CreateCampaign HTTP/2
+Content-Type: application/json
+
+{
+  "coupon_limit": 1000,
+  "name": "Test",
+  "description": "Test Description",
+  "start_at": "2025-03-26T00:00:00Z",
+  "end_at": "2025-03-28T23:59:59Z"
+}
+
+### Get a Campaign (with all issued coupons)
+POST http://localhost:8080/protos.coupon.v1.CouponIssuanceService/GetCampaign HTTP/2
+Content-Type: application/json
+
+{
+  "campaign_id": 1
+}
+
+### Issue a Coupon
+POST http://localhost:8080/protos.coupon.v1.CouponIssuanceService/IssueCoupon HTTP/2
+Content-Type: application/json
+
+{
+  "campaign_id": 1
+}

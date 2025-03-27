@@ -18,14 +18,16 @@ type Campaign struct {
 	Coupons     *coupon.Coupons
 }
 
-var CampaignId *id.ID
-var store *Store = newCampaignStore()
+var (
+	campaignId *id.ID = id.NewID()
+	store      *Store = newCampaignStore()
+)
 
 // NewCampaign creates a new campaign with the provided parameters and stores it.
 // Returns a pointer to the newly created Campaign object or an error if the campaign could not be stored.
 func NewCampaign(limit uint32, name, desc string, start, end time.Time) (*Campaign, error) {
 	camp := &Campaign{
-		Id:          CampaignId.Next(),
+		Id:          campaignId.Next(),
 		CouponLimit: limit,
 		Name:        name,
 		Description: desc,
